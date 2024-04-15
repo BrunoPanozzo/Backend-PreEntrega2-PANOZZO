@@ -1,0 +1,18 @@
+<div class="item-list-container">
+    <h1 class="titulo-importante">Productos de la Tienda</h1>
+<div class="text-center mb-1">    
+    <div class="item-list" id="productsList">
+        {{#each filteredProducts}}
+        <div class="card text-bg-light mb-3 item" id='{{this.id}}'>
+            <div class="card-header">{{category}}</div>
+            <div class="card-body">
+                <h5 class="card-title">{{title}}</h5>
+                <img src="/images/productos/{{thumbnail}}" alt={{title}} width="270" />
+                <p class="card-text item-precio">$ {{this.price}}</p>
+                <p class="card-text item-stock">Stock Disponible: {{this.stock}}</p>
+                <p class="card-text item-descripcion">{{this.description}}</p>
+            </div>            
+        </div>
+        {{/each}}
+    </div>
+</div>
