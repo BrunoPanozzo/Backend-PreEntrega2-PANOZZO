@@ -41,7 +41,7 @@ const main = async () => {
     await mongoose.connect('mongodb+srv://coderUser:coderPassword@coderclustertest.y46cxod.mongodb.net/?retryWrites=true&w=majority&appName=CoderClustertest',
         {
             dbName: 'ecommerce'
-        })    
+        })           
 
     //configurar cuál de los dos Managers está activo, son excluyentes
     //Manager con FileSystem

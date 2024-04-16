@@ -1,14 +1,19 @@
 const { Router } = require('express')
 const ProductManager = require('../dao/fsManagers/ProductManager')
+const productModel = require('./dao/models/product.model')
 
 const router = Router()
 
 //endpoints
 
-router.get('/', async (req, res) => {
+router.get('/products', async (req, res) => {
     try {
         const productManager = req.app.get('productManager')
+        const page = +req.query.page || 1
+
         let filteredProducts = await productManager.getProducts()
+
+        filteredProducts = await productModel.paginate({},{limit:4, page, lean: true}) 
 
         const data = {
             title: 'All Products',

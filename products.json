@@ -10,7 +10,7 @@
 		"price": 779.999,
 		"stock": 10,
 		"status": true,
-		"category": "Móviles"
+		"category": "Moviles"
 	},
 	{
 		"id": 2,
@@ -23,7 +23,7 @@
 		"price": 459.999,
 		"stock": 15,
 		"status": true,
-		"category": "Móviles"
+		"category": "Moviles"
 	},
 	{
 		"id": 3,
@@ -36,7 +36,7 @@
 		"price": 174.999,
 		"stock": 20,
 		"status": true,
-		"category": "Móviles"
+		"category": "Moviles"
 	},
 	{
 		"id": 4,
@@ -49,59 +49,59 @@
 		"price": 214.999,
 		"stock": 25,
 		"status": true,
-		"category": "Móviles"
+		"category": "Moviles"
 	},
 	{
 		"id": 5,
 		"title": "65' Crystal UHD BU8000",
 		"description": "Su resolución es 4K. Tecnología HDR para una calidad de imagen mejorada. Modo de sonido: Dolby Digital Plus, Adaptive Sound, Q-Symphony. Manejalo por comando de voz. Conectá tus dispositivos mediante sus 3 puertos HDMI y sus 2 puertos USB. Con sistema de cables ocultos.",
-		"code": "TV-Audio1",
+		"code": "TVAudio1",
 		"thumbnail": [
 			"tv_crystal_65.png"
 		],
 		"price": 474.999,
 		"stock": 10,
 		"status": true,
-		"category": "Móviles"
+		"category": "TV-Audio"
 	},
 	{
 		"id": 6,
 		"title": "55' Neo QLED 4K QN85B",
 		"description": "Pantalla QLED 4K de 55' para colores vibrantes y detalles nítidos. Tecnología HDR para mayor contraste y realismo en imágenes. Sistema operativo Tizen para acceso rápido a aplicaciones y streaming. Conectividad WiFi para disfrutar contenido online sin cables. 4 puertos HDMI y 2 puertos USB para conectar dispositivos fácilmente. Frecuencia de actualización de 120 Hz para imágenes fluidas y sin desenfoques.",
-		"code": "TV-Audio2",
+		"code": "TVAudio2",
 		"thumbnail": [
 			"tv_Neo_55.png"
 		],
 		"price": 809.999,
 		"stock": 15,
 		"status": true,
-		"category": "Móviles"
+		"category": "TV-Audio"
 	},
 	{
 		"id": 7,
 		"title": "MX-T70 1500W Sound Tower",
 		"description": "Sonido bidireccional. Woofer integrado. Bass Booster (Alta potencia de 500W). Disfrutá de la calidad y el efecto del cine en casa.",
-		"code": "TV-Audio3",
+		"code": "TVAudio3",
 		"thumbnail": [
 			"sound_tower_1500W.png"
 		],
 		"price": 399.999,
 		"stock": 20,
 		"status": true,
-		"category": "Móviles"
+		"category": "TV-Audio"
 	},
 	{
 		"id": 8,
 		"title": "Barra de sonido Q-Series HW-Q930C",
 		"description": "Compatible para conectarse mediante HDMI. Incluye un parlante: subwoofer. Con formato de audio MP3/WMA/AAC/OGG/FLAC/WAV/ALAC/AIFF. Disfrutá de la calidad y el efecto del cine en casa. Incluye cables: HDMI.",
-		"code": "TV-Audio4",
+		"code": "TVAudio4",
 		"thumbnail": [
 			"barra_de_sonido.png"
 		],
 		"price": 725.17,
 		"stock": 25,
 		"status": true,
-		"category": "Móviles"
+		"category": "TV-Audio"
 	},
 	{
 		"id": 9,
@@ -114,7 +114,7 @@
 		"price": 238.499,
 		"stock": 10,
 		"status": true,
-		"category": "Móviles"
+		"category": "Electrodomesticos"
 	},
 	{
 		"id": 10,
@@ -127,7 +127,7 @@
 		"price": 745.999,
 		"stock": 15,
 		"status": true,
-		"category": "Móviles"
+		"category": "Electrodomesticos"
 	},
 	{
 		"id": 11,
@@ -140,7 +140,7 @@
 		"price": 375.999,
 		"stock": 20,
 		"status": true,
-		"category": "Móviles"
+		"category": "Electrodomesticos"
 	},
 	{
 		"id": 12,
@@ -153,7 +153,7 @@
 		"price": 397.999,
 		"stock": 25,
 		"status": true,
-		"category": "Móviles"
+		"category": "Electrodomesticos"
 	},
 	{
 		"id": 13,
@@ -166,7 +166,7 @@
 		"price": 699.999,
 		"stock": 10,
 		"status": true,
-		"category": "Móviles"
+		"category": "Computacion"
 	},
 	{
 		"id": 14,
@@ -179,7 +179,7 @@
 		"price": 1.094999,
 		"stock": 15,
 		"status": true,
-		"category": "Móviles"
+		"category": "Computacion"
 	},
 	{
 		"id": 15,
@@ -192,7 +192,7 @@
 		"price": 237.499,
 		"stock": 20,
 		"status": true,
-		"category": "Móviles"
+		"category": "Computacion"
 	},
 	{
 		"id": 16,
@@ -205,6 +205,6 @@
 		"price": 368.688,
 		"stock": 25,
 		"status": true,
-		"category": "Móviles"
+		"category": "Computacion"
 	}
 ]

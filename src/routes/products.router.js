@@ -107,7 +107,12 @@ async function validateProduct(req, res, next) {
 router.get('/', async (req, res) => {
     try {
         const productManager = req.app.get('productManager')
-        const { limit } = req.query
+        // const { limit, page, category, availability, sort } = req.query
+        const limit = +req.query.limit || 10
+        const page = +req.query.page || 1
+        const category = req.query.category
+        const availability = +req.query.availability  //puede venir 1 o 0, donde por 0 se refiere a productos sin stock
+        const sort = req.query.sort //puede venir "asc" o "desc"
 
         let allProducts = await productManager.getProducts()
 
@@ -126,18 +131,19 @@ router.get('/', async (req, res) => {
             filteredProducts = allProducts
         }
 
-        const data = {
-            title: 'All Products',
-            scripts: ['allProducts.js'],
-            styles: ['home.css', 'allProducts.css'],
-            useWS: false,
-            filteredProducts
-        }
+        // const data = {
+        //     title: 'All Products',
+        //     scripts: ['allProducts.js'],
+        //     styles: ['home.css', 'allProducts.css'],
+        //     useWS: false,
+        //     filteredProducts
+        // }
+        // res.render('index', data)
 
-        res.render('index', data)
+        
 
         // HTTP 200 OK
-        // res.status(200).json(allProducts)
+        return res.status(200).json(filteredProducts)
     }
     catch (err) {
         return res.status(500).json({ message: err.message })

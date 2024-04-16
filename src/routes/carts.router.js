@@ -144,6 +144,4 @@ router.delete('/:cid', validateCart, async (req, res) => {
     }
 })
 
-
-
 module.exports = router;
