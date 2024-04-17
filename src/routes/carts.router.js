@@ -112,7 +112,7 @@ router.post('/', validateNewCart, async (req, res) => {
     }
 })
 
-router.post('/:cid/product/:pid', validateCart, validateProduct, async (req, res) => {
+router.post('/:cid/products/:pid', validateCart, validateProduct, async (req, res) => {
     try {
         const cartManager = req.app.get('cartManager')
         let cartId = +req.params.cid;
@@ -129,15 +129,82 @@ router.post('/:cid/product/:pid', validateCart, validateProduct, async (req, res
     }
 })
 
+router.put('/:cid', validateCart, async (req, res) => {
+    try {
+        const cartManager = req.app.get('cartManager')
+        let cartId = +req.params.cid;
+        const { products } = req.body;
+
+        await cartManager.updateCartProducts(cartId, products);
+
+        // HTTP 200 OK => se encontró el carrito
+        res.status(200).json(`Los productos del carrito con ID ${cartId} se actualizaron exitosamente.`)
+    }
+    catch (err) {
+        return res.status(500).json({ message: err.message })
+    }
+})
+
+router.put('/:cid/products/:pid', validateCart, validateProduct, async (req, res) => {
+    try {
+        const cartManager = req.app.get('cartManager')
+        let cartId = +req.params.cid;
+        let prodId = +req.params.pid;
+        const quantity = +req.body.quantity;        
+
+        console.log(quantity)
+        const result = await cartManager.addProductToCart(cartId, prodId, quantity);
+
+        if (result)
+            // HTTP 200 OK => carrito modificado exitosamente
+            res.status(200).json(`Se agregaron ${quantity} producto/s con ID ${prodId} al carrito con ID ${cartId}.`)
+        else {
+            //HTTP 400 Bad Request
+            res.status(400).json({ error: "El servidor no pudo entender la solicitud debido a una sintaxis incorrecta." })
+        }
+
+        
+    }
+    catch (err) {
+        return res.status(500).json({ message: err.message })
+    }
+})
+
 router.delete('/:cid', validateCart, async (req, res) => {
     try {
         const cartManager = req.app.get('cartManager')
         let cartId = +req.params.cid;
 
-        await cartManager.deleteCart(cartId)
+        // await cartManager.deleteCart(cartId)
+
+        // // HTTP 200 OK
+        // res.status(200).json(`Carrito borrado exitosamente.`)  
+
+        await cartManager.deleteAllProductsFromCart(cartId)
 
         // HTTP 200 OK
-        res.status(200).json(`Carrito borrado exitosamente.`)  
+        res.status(200).json(`Se eliminaron todos los productos del carrito con ID ${cartId}.`)
+    }
+    catch (err) {
+        return res.status(500).json({ message: err.message })
+    }
+})
+
+router.delete('/:cid/products/:pid', validateCart, validateProduct, async (req, res) => {
+    try {
+        const cartManager = req.app.get('cartManager')
+        let cartId = +req.params.cid;
+        let prodId = +req.params.pid;
+
+        const result = await cartManager.deleteProductFromCart(cartId, prodId);
+
+        if (result)
+            // HTTP 200 OK => carrito modificado exitosamente
+            res.status(200).json(`Se eliminó el producto con ID ${prodId} del carrito con ID ${cartId}.`)
+        else {
+            //HTTP 400 Bad Request
+            res.status(400).json({ error: "El servidor no pudo entender la solicitud debido a una sintaxis incorrecta." })
+        }
     }
     catch (err) {
         return res.status(500).json({ message: err.message })

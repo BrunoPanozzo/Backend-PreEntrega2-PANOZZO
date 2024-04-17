@@ -140,7 +140,6 @@ class ProductManager {
         }
         catch (err) {
             console.log({ error: err })
-
             return []
         }
     }

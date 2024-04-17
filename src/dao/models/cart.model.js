@@ -8,7 +8,18 @@ const cartSchema = new mongoose.Schema({
         required : true,
         unique: true
     },
-    products: [{ id: Number, quantity: Number }]    
+    products: {
+        type: [
+            { 
+                id: {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: 'Product'
+                },
+                quantity: Number
+            }
+        ],
+        default: []
+    }
 })
 
-module.exports = mongoose.model(cartsCollection, cartSchema);
+module.exports = mongoose.model('Cart',cartSchema, 'carts');
