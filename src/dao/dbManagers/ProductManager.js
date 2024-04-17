@@ -117,11 +117,11 @@ class ProductManager {
 
     getProducts = async (filters) => {
         try {
-
-            if (!filters) {
+            if (JSON.stringify(filters) === '{}') {
                 let filteredProducts = await productModel.find()
                 filteredProducts = await productModel.paginate({}, { lean: true })
-                return filteredProducts.docs.map(d => d.toObject({ virtuals: true }))
+                // return filteredProducts.docs.map(d => d.toObject({ virtuals: true }))
+                return filteredProducts
             }
 
             const { limit, page, category, availability, sort } = { limit: 10, page: 1, category: 'Computacion', availability: 1, sort: 'asc', ...filters }

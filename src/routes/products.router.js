@@ -120,8 +120,8 @@ router.get('/', async (req, res) => {
             page: filteredProducts.page,
             hasPrevPage: filteredProducts.hasPrevPage,
             hasNextPage: filteredProducts.hasNextPage,
-            prevLink: filteredProducts.hasPrevPage ? `<a href="/products?page=${filteredProducts.prevPage}">Página anterior</a>` : null,
-            nextlink: filteredProducts.hasNextPage ? `<a href="/products?page=${filteredProducts.nextPage}">Página siguiente</a>` : null
+            prevLink: filteredProducts.hasPrevPage ? `/products?page=${filteredProducts.prevPage}` : null,
+            nextlink: filteredProducts.hasNextPage ? `/products?page=${filteredProducts.nextPage}` : null
         }
 
         let finalResult = {

@@ -49,7 +49,7 @@ class CartManager {
     }
 
     getCartById = async (cartId) => {
-        const cart = await cartModel.findOne({ id: cartId }).populate('products.id')
+        const cart = await cartModel.findOne({ id: cartId })//.populate('products._id')
         if (cart) {
             console.log(cart)
                return cart
