@@ -11,7 +11,7 @@ router.get('/products', async (req, res) => {
         const productManager = req.app.get('productManager')
         
         const filteredProducts = await productManager.getProducts(req.query)
-       
+        
         const data = {
             title: 'All Products',
             scripts: ['allProducts.js'],
@@ -19,6 +19,8 @@ router.get('/products', async (req, res) => {
             useWS: false,
             filteredProducts
         }
+
+        console.log(filteredProducts)
 
         res.render('index', data)        
     }

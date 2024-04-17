@@ -117,17 +117,29 @@ class ProductManager {
 
     getProducts = async (filters) => {
         try {
+            let filteredProducts = await productModel.find()
+
             //busqueda general, sin filtros
             if (JSON.stringify(filters) === '{}') {
-                let filteredProducts = await productModel.find()
                 filteredProducts = await productModel.paginate({}, { lean: true })
                 // return filteredProducts.docs.map(d => d.toObject({ virtuals: true }))
                 return filteredProducts
             }
 
-            const { limit, page, category, availability, sort } = { limit: 10, page: 1, category: 'Computacion', availability: 1, sort: 'asc', ...filters }
+            //busqueda general, sin filtros, solo esta avanzando o retrocediendo por las paginas
+            const { page, ...restOfFilters } = filters
 
-            let filteredProducts = await productModel.find()           
+            console.log(page)
+            console.log(restOfFilters)
+
+            if (page && JSON.stringify(restOfFilters) === '{}') {
+                filteredProducts = await productModel.paginate({}, { page: page, lean: true })
+                // return filteredProducts.docs.map(d => d.toObject({ virtuals: true }))
+                return filteredProducts
+            } 
+
+            // const { limit, page, category, availability, sort } = { limit: 10, page: 1, category: 'Computacion', availability: 1, sort: 'asc', ...filters }
+
            
             if (availability == 1) {
                 filteredProducts = await productModel.paginate({ category: category, stock: { $gt: 0 }}, {}, { limit: limit, page: page, sort: { price: sort }, lean: true })
