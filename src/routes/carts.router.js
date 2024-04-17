@@ -29,13 +29,13 @@ async function validateNewCart(req, res, next) {
 
 async function validateCart(req, res, next) {
     const cartManager = req.app.get('cartManager')
-    let cartId = +req.params.cid;
+    let cartId = req.params.cid;
 
-    if (isNaN(cartId)) {
-        // HTTP 400 => hay un error en el request o alguno de sus parámetros
-        res.status(400).json({ error: "Formato inválido del ID del carrito." })
-        return
-    }
+    // if (isNaN(cartId)) {
+    //     // HTTP 400 => hay un error en el request o alguno de sus parámetros
+    //     res.status(400).json({ error: "Formato inválido del ID del carrito." })
+    //     return
+    // }
 
     const cart = await cartManager.getCartById(cartId)
     if (!cart) {
@@ -48,7 +48,7 @@ async function validateCart(req, res, next) {
 
 async function validateProduct(req, res, next) {
     const productManager = req.app.get('productManager')
-    let prodId = +req.params.pid;
+    let prodId = req.params.pid;
 
     const prod = await productManager.getProductById(prodId)
     if (!prod) {
@@ -77,8 +77,9 @@ router.get('/', async (req, res) => {
 router.get('/:cid', validateCart, async (req, res) => {
     try {
         const cartManager = req.app.get('cartManager')
-        let cartId = +req.params.cid;
+        let cartId = req.params.cid;
 
+        console.log()
         let cartById = await cartManager.getCartById(cartId);
 
         if (cartById)
@@ -115,8 +116,8 @@ router.post('/', validateNewCart, async (req, res) => {
 router.post('/:cid/products/:pid', validateCart, validateProduct, async (req, res) => {
     try {
         const cartManager = req.app.get('cartManager')
-        let cartId = +req.params.cid;
-        let prodId = +req.params.pid;
+        let cartId = req.params.cid;
+        let prodId = req.params.pid;
         let quantity = 1;
 
         await cartManager.addProductToCart(cartId, prodId, quantity);
@@ -132,8 +133,8 @@ router.post('/:cid/products/:pid', validateCart, validateProduct, async (req, re
 router.put('/:cid', validateCart, async (req, res) => {
     try {
         const cartManager = req.app.get('cartManager')
-        let cartId = +req.params.cid;
-        const { products } = req.body;
+        let cartId = req.params.cid;
+        const { products }= req.body;
 
         await cartManager.updateCartProducts(cartId, products);
 
@@ -148,8 +149,8 @@ router.put('/:cid', validateCart, async (req, res) => {
 router.put('/:cid/products/:pid', validateCart, validateProduct, async (req, res) => {
     try {
         const cartManager = req.app.get('cartManager')
-        let cartId = +req.params.cid;
-        let prodId = +req.params.pid;
+        let cartId = req.params.cid;
+        let prodId = req.params.pid;
         const quantity = +req.body.quantity;        
 
         console.log(quantity)
@@ -173,17 +174,17 @@ router.put('/:cid/products/:pid', validateCart, validateProduct, async (req, res
 router.delete('/:cid', validateCart, async (req, res) => {
     try {
         const cartManager = req.app.get('cartManager')
-        let cartId = +req.params.cid;
+        let cartId = req.params.cid;
 
-        // await cartManager.deleteCart(cartId)
-
-        // // HTTP 200 OK
-        // res.status(200).json(`Carrito borrado exitosamente.`)  
-
-        await cartManager.deleteAllProductsFromCart(cartId)
+        await cartManager.deleteCart(cartId)
 
         // HTTP 200 OK
-        res.status(200).json(`Se eliminaron todos los productos del carrito con ID ${cartId}.`)
+        res.status(200).json(`Carrito borrado exitosamente.`)  
+
+        // await cartManager.deleteAllProductsFromCart(cartId)
+
+        // // HTTP 200 OK
+        // res.status(200).json(`Se eliminaron todos los productos del carrito con ID ${cartId}.`)
     }
     catch (err) {
         return res.status(500).json({ message: err.message })
@@ -193,8 +194,8 @@ router.delete('/:cid', validateCart, async (req, res) => {
 router.delete('/:cid/products/:pid', validateCart, validateProduct, async (req, res) => {
     try {
         const cartManager = req.app.get('cartManager')
-        let cartId = +req.params.cid;
-        let prodId = +req.params.pid;
+        let cartId = req.params.cid;
+        let prodId = req.params.pid;
 
         const result = await cartManager.deleteProductFromCart(cartId, prodId);
 

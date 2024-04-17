@@ -41,7 +41,7 @@ async function validateNewProduct(req, res, next) {
 async function validateUpdateProduct(req, res, next) {
     const productManager = req.app.get('productManager')
 
-    const prodId = +req.params.pid
+    const prodId = req.params.pid
     const product = req.body
 
     //primero debo verificar que el producto exista en mi array de todos los productos
@@ -81,14 +81,14 @@ async function validateUpdateProduct(req, res, next) {
 
 async function validateProduct(req, res, next) {
     const productManager = req.app.get('productManager')
-    let prodId = +req.params.pid;
+    let prodId = req.params.pid;
 
-    if (isNaN(prodId)) {
-        // HTTP 400 => hay un error en el request o alguno de sus parámetros
-        res.status(400).json({ error: "Formato inválido del productID." })
-        return
-    }
-        
+    // if (isNaN(prodId)) {
+    //     // HTTP 400 => hay un error en el request o alguno de sus parámetros
+    //     res.status(400).json({ error: "Formato inválido del productID." })
+    //     return
+    // }
+
     //primero debo verificar que el producto exista en mi array de todos los productos
     const prod = await productManager.getProductById(prodId)
     if (!prod) {
@@ -106,13 +106,11 @@ async function validateProduct(req, res, next) {
 
 router.get('/', async (req, res) => {
     try {
-        const productManager = req.app.get('productManager')               
+        const productManager = req.app.get('productManager')
 
         const filteredProducts = await productManager.getProducts(req.query)
 
-        // console.log(filteredProducts)
-
-        const result = {            
+        const result = {
             payload: filteredProducts.totalDocs,
             totalPages: filteredProducts.totalPages,
             prevPage: filteredProducts.prevPage,
@@ -124,27 +122,26 @@ router.get('/', async (req, res) => {
             nextlink: filteredProducts.hasNextPage ? `/products?page=${filteredProducts.nextPage}` : null
         }
 
+        let status = 'success'
+        if (filteredProducts.docs.length == 0)
+            status = 'error'
         let finalResult = {
-            status: 'success',
+            status,
             ...result
         }
-        
+
         // HTTP 200 OK
         return res.status(200).json(finalResult)
     }
     catch (err) {
-        let finalResult = {
-            status: 'error',
-            ...result
-        }
-        return res.status(500).json(finalResult)
+        return res.status(500).json({ error: err })
     }
 })
 
 router.get('/:pid', validateProduct, async (req, res) => {
     try {
         const productManager = req.app.get('productManager')
-        const prodId = +req.params.pid
+        const prodId = req.params.pid
 
         const product = await productManager.getProductById(prodId)
 
@@ -209,15 +206,15 @@ router.post('/create', validateNewProduct, async (req, res) => {
 router.put('/:pid', validateUpdateProduct, async (req, res) => {
     try {
         const productManager = req.app.get('productManager')
-        const prodId = +req.params.pid
+        const prodId = req.params.pid
         const productUpdated = req.body
 
         //valido el ID que hasta el momento no fue evaluado
-        if (isNaN(prodId)) {
-            // HTTP 400 => hay un error en el request o alguno de sus parámetros
-            res.status(400).json({ error: "Formato inválido del productID." })
-            return
-        }
+        // if (isNaN(prodId)) {
+        //     // HTTP 400 => hay un error en el request o alguno de sus parámetros
+        //     res.status(400).json({ error: "Formato inválido del productID." })
+        //     return
+        // }
 
         const productActual = await productManager.getProductById(prodId)
         if (productActual) {
@@ -238,7 +235,7 @@ router.put('/:pid', validateUpdateProduct, async (req, res) => {
 router.delete('/:pid', validateProduct, async (req, res) => {
     try {
         const productManager = req.app.get('productManager')
-        const prodId = +req.params.pid        
+        const prodId = req.params.pid
 
         const product = await productManager.getProductById(prodId)
         if (product) {

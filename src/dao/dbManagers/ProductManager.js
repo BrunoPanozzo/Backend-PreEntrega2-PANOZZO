@@ -117,6 +117,7 @@ class ProductManager {
 
     getProducts = async (filters) => {
         try {
+            //busqueda general, sin filtros
             if (JSON.stringify(filters) === '{}') {
                 let filteredProducts = await productModel.find()
                 filteredProducts = await productModel.paginate({}, { lean: true })
@@ -145,7 +146,7 @@ class ProductManager {
     }
 
     getProductById = async (prodId) => {
-        const producto = await productModel.findOne({ id: prodId })
+        const producto = await productModel.findOne({ _id: prodId })
         if (producto)
             return producto
         else {
@@ -180,11 +181,11 @@ class ProductManager {
     }
 
     updateProduct = async (prodId, producto) => {
-        await productModel.updateOne({ id: prodId }, producto)
+        await productModel.updateOne({ _id: prodId }, producto)
     }
 
     deleteProduct = async (idProd) => {
-        await productModel.deleteOne({ id: idProd })
+        await productModel.deleteOne({ _id: idProd })
     }
 }
 
