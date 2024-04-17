@@ -1,6 +1,7 @@
 //definir los paquetes que se van a utilizar
 const express = require('express')
-const handlebars = require('express-handlebars')
+// const handlebars = require('express-handlebars')
+const expressHandlebars = require("express-handlebars")
 const mongoose = require('mongoose')
 const { Server } = require('socket.io')
 
@@ -25,10 +26,21 @@ app.use(express.static(`${__dirname}/../public`))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-// configurar handlebars como nuestro template engine por defecto
-app.engine('handlebars', handlebars.engine())
-app.set('views', `${__dirname}/views`)
-app.set('view engine', 'handlebars')
+// // configurar handlebars como nuestro template engine por defecto
+// app.engine('handlebars', handlebars.engine())
+// app.set('views', `${__dirname}/views`)
+// app.set('view engine', 'handlebars')
+const handlebars = expressHandlebars.create({
+    defaultLayout: "main",
+    handlebars: require("handlebars"),
+    runtimeOptions: {
+        allowProtoPropertiesByDefault: true
+    }
+})
+
+app.engine("handlebars", handlebars.engine)
+app.set("views" , `${__dirname}/views`)
+app.set("view engine", "handlebars")
 
 //configurar los routers
 app.use('/api/products', productRouter)

@@ -1,6 +1,6 @@
 const { Router } = require('express')
 const ProductManager = require('../dao/fsManagers/ProductManager')
-const productModel = require('./dao/models/product.model')
+const productModel = require('../dao/models/product.model')
 
 const router = Router()
 
@@ -9,12 +9,9 @@ const router = Router()
 router.get('/products', async (req, res) => {
     try {
         const productManager = req.app.get('productManager')
-        const page = +req.query.page || 1
-
-        let filteredProducts = await productManager.getProducts()
-
-        filteredProducts = await productModel.paginate({},{limit:4, page, lean: true}) 
-
+        
+        const filteredProducts = await productManager.getProducts(req.query)
+       
         const data = {
             title: 'All Products',
             scripts: ['allProducts.js'],
@@ -23,10 +20,7 @@ router.get('/products', async (req, res) => {
             filteredProducts
         }
 
-        res.render('index', data)
-
-        // HTTP 200 OK
-        // res.status(200).json(allProducts)
+        res.render('index', data)        
     }
     catch (err) {
         return res.status(500).json({ message: err.message })
@@ -36,7 +30,7 @@ router.get('/products', async (req, res) => {
 router.get('/realtimeproducts', async (req, res) => {
     const productManager = req.app.get('productManager')
 
-    let allProducts = await productManager.getProducts()
+    let allProducts = await productManager.getProducts(req.query)
 
     const data = {        
         title: 'Real Time Products', 

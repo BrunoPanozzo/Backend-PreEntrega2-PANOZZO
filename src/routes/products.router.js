@@ -61,8 +61,8 @@ async function validateUpdateProduct(req, res, next) {
         product.status,
         product.category)) {
         //verifico que el campo "code", que puede venir modificado, no sea igual al campo code de otros productos ya existentes
-        let allProducts = await productManager.getProducts()
-        let producto = allProducts.find(element => ((element.code === product.code) && (element.id != prodId)))
+        let allProducts = await productManager.getProducts(req.query)
+        let producto = allProducts.docs.find(element => ((element.code === product.code) && (element.id != prodId)))
         if (producto) {
             let msjeError = `No se permite modificar el producto con código '${product.code}' porque ya existe.`
             console.error(msjeError)
@@ -106,47 +106,38 @@ async function validateProduct(req, res, next) {
 
 router.get('/', async (req, res) => {
     try {
-        const productManager = req.app.get('productManager')
-        // const { limit, page, category, availability, sort } = req.query
-        const limit = +req.query.limit || 10
-        const page = +req.query.page || 1
-        const category = req.query.category
-        const availability = +req.query.availability  //puede venir 1 o 0, donde por 0 se refiere a productos sin stock
-        const sort = req.query.sort //puede venir "asc" o "desc"
+        const productManager = req.app.get('productManager')               
 
-        let allProducts = await productManager.getProducts()
+        const filteredProducts = await productManager.getProducts(req.query)
 
-        let filteredProducts = []
+        // console.log(filteredProducts)
 
-        if (limit) {
-            if (isNaN(limit) || (limit < 0)) {
-                // HTTP 400 => hay un error en el request o alguno de sus parámetros
-                res.status(400).json({ error: "Formato inválido del límite." })
-                return
-            }
-
-            filteredProducts = allProducts.splice(0, limit)
-        }
-        else {
-            filteredProducts = allProducts
+        const result = {            
+            payload: filteredProducts.totalDocs,
+            totalPages: filteredProducts.totalPages,
+            prevPage: filteredProducts.prevPage,
+            nextPage: filteredProducts.nextPage,
+            page: filteredProducts.page,
+            hasPrevPage: filteredProducts.hasPrevPage,
+            hasNextPage: filteredProducts.hasNextPage,
+            prevLink: filteredProducts.hasPrevPage ? `<a href="/products?page=${filteredProducts.prevPage}">Página anterior</a>` : null,
+            nextlink: filteredProducts.hasNextPage ? `<a href="/products?page=${filteredProducts.nextPage}">Página siguiente</a>` : null
         }
 
-        // const data = {
-        //     title: 'All Products',
-        //     scripts: ['allProducts.js'],
-        //     styles: ['home.css', 'allProducts.css'],
-        //     useWS: false,
-        //     filteredProducts
-        // }
-        // res.render('index', data)
-
+        let finalResult = {
+            status: 'success',
+            ...result
+        }
         
-
         // HTTP 200 OK
-        return res.status(200).json(filteredProducts)
+        return res.status(200).json(finalResult)
     }
     catch (err) {
-        return res.status(500).json({ message: err.message })
+        let finalResult = {
+            status: 'error',
+            ...result
+        }
+        return res.status(500).json(finalResult)
     }
 })
 

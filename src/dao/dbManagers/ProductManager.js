@@ -14,15 +14,15 @@ class ProductManager {
             throw new Error('Error al conectarse a la BD de mongodb!')
         }
         else {
-            const products = await this.getProducts()
-            ProductManager.#lastID_Product = this.#getHigherID(products)
+            const products = await this.getProducts({})
+            ProductManager.#lastID_Product = this.#getHigherID(products.docs)
         }
     }
 
     //métodos internos
     #getHigherID = (products) => {
         let higherID = 0
-       products.forEach(item => {
+        products.forEach(item => {
             if (item.id > higherID)
                 higherID = item.id
         });
@@ -57,7 +57,7 @@ class ProductManager {
         return this.#soloNumerosPositivos_Y_Cero(cadena)
     }
 
-//     //validar los campos de un "objeto" producto
+    //     //validar los campos de un "objeto" producto
     validateProduct = (title, description, price, thumbnail, code, stock, status, category) => {
         //validar que el campo "title" no esté vacío        
         if (title.trim().length <= 0) {
@@ -115,29 +115,49 @@ class ProductManager {
         return true
     }
 
-    getProducts = async () => {
+    getProducts = async (filters) => {
         try {
-            const products = await productModel.find()
-            return products.map(d => d.toObject({ virtuals: true }))
+
+            if (!filters) {
+                let filteredProducts = await productModel.find()
+                filteredProducts = await productModel.paginate({}, { lean: true })
+                return filteredProducts.docs.map(d => d.toObject({ virtuals: true }))
+            }
+
+            const { limit, page, category, availability, sort } = { limit: 10, page: 1, category: 'Computacion', availability: 1, sort: 'asc', ...filters }
+
+            let filteredProducts = await productModel.find()           
+           
+            if (availability == 1) {
+                filteredProducts = await productModel.paginate({ category: category, stock: { $gt: 0 }}, {}, { limit: limit, page: page, sort: { price: sort }, lean: true })
+            }
+            else {
+                filteredProducts = await productModel.paginate({ category: category, stock: 0 }, {}, { limit: limit, page: page, sort: { price: sort }, lean: true })
+            }
+
+            return filteredProducts
+            // return filteredProducts.map(d => d.toObject({ virtuals: true }))
         }
         catch (err) {
+            console.log({ error: err })
+
             return []
         }
     }
 
     getProductById = async (prodId) => {
-        const producto = await productModel.findOne({ id: prodId })        
+        const producto = await productModel.findOne({ id: prodId })
         if (producto)
             return producto
         else {
             console.error(`El producto con id "${prodId}" no existe.`)
             return
         }
-    }    
-   
+    }
+
     //buscar en el arreglo de productos un producto con un CODE determinado. Caso contrario devolver msje de error
     getProductByCode = async (prodCode) => {
-        const producto = await productModel.findOne({ code: prodCode })        
+        const producto = await productModel.findOne({ code: prodCode })
         if (producto)
             return producto
         else {
@@ -146,7 +166,7 @@ class ProductManager {
         }
     }
 
-    addProduct = async(title, description, price, thumbnail, code, stock, status, category) => {        
+    addProduct = async (title, description, price, thumbnail, code, stock, status, category) => {
         let product = await productModel.create({
             id: this.#getNuevoID(),
             title,
@@ -157,14 +177,14 @@ class ProductManager {
             stock,
             status,
             category
-        })        
+        })
     }
 
     updateProduct = async (prodId, producto) => {
         await productModel.updateOne({ id: prodId }, producto)
     }
 
-    deleteProduct = async (idProd) => {        
+    deleteProduct = async (idProd) => {
         await productModel.deleteOne({ id: idProd })
     }
 }
