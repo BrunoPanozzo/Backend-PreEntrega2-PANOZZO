@@ -135,7 +135,7 @@ class ProductManager {
             } 
 
             if (!page) page = 1
-            let { limit, category, availability, sort } = { limit: 10, page: page, category: 'Computacion', availability: 1, sort: 'asc', ...filters }
+            let { limit, category, availability, sort } = { limit: 10, page: page, availability: 1, sort: 'asc', ...filters }
            
             console.log(limit)
             console.log(page)
@@ -144,10 +144,16 @@ class ProductManager {
             console.log(sort)
 
             if (availability == 1) {
-                filteredProducts = await productModel.paginate({ category: category, stock: { $gt: 0 }}, { limit: limit, page: page, sort: { price: sort }, lean: true })
+                if (category)
+                    filteredProducts = await productModel.paginate({ category: category, stock: { $gt: 0 }}, { limit: limit, page: page, sort: { price: sort }, lean: true })
+                else
+                filteredProducts = await productModel.paginate({ stock: { $gt: 0 }}, { limit: limit, page: page, sort: { price: sort }, lean: true })
             }
             else {
-                filteredProducts = await productModel.paginate({ category: category, stock: 0 }, { limit: limit, page: page, sort: { price: sort }, lean: true })
+                if (category)
+                    filteredProducts = await productModel.paginate({ category: category, stock: 0 }, { limit: limit, page: page, sort: { price: sort }, lean: true })
+                else
+                filteredProducts = await productModel.paginate({ stock: 0 }, { limit: limit, page: page, sort: { price: sort }, lean: true })
             }
 
             return filteredProducts
