@@ -88,10 +88,7 @@ class CartManager {
     }
 
     //agregar un producto al array de productos de un carrito determinado
-    addProductToCart = async (cartId, prodId, quantity) => {
-        console.log(cartId)
-        console.log(prodId)
-
+    addProductToCart = async (cartId, prodId, quantity) => {        
         const cartIndex = this.#carts.findIndex(item => item.id === cartId)
         const productsFromCart = this.#carts[cartIndex].products
         const productIndex = productsFromCart.findIndex(item => item.id === prodId)

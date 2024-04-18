@@ -61,7 +61,7 @@ router.get('/carts/:cid', async (req, res) => {
         const cartId = req.params.cid
         const cart = await cartManager.getCartById(cartId)               
 
-        console.log(JSON.stringify(cart.products, null, '\t'))
+        // console.log(JSON.stringify(cart.products, null, '\t'))
 
         let data = {
             title: 'Cart detail',

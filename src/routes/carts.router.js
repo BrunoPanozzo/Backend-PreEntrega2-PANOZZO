@@ -79,7 +79,6 @@ router.get('/:cid', validateCart, async (req, res) => {
         const cartManager = req.app.get('cartManager')
         let cartId = req.params.cid;
 
-        console.log()
         let cartById = await cartManager.getCartById(cartId);
 
         if (cartById)
@@ -101,7 +100,7 @@ router.post('/', validateNewCart, async (req, res) => {
         const cartManager = req.app.get('cartManager')
         const { products } = req.body;
 
-        console.log(products)
+        // console.log(products)
 
         await cartManager.addCart(products);
 
@@ -152,8 +151,7 @@ router.put('/:cid/products/:pid', validateCart, validateProduct, async (req, res
         let cartId = req.params.cid;
         let prodId = req.params.pid;
         const quantity = +req.body.quantity;        
-
-        console.log(quantity)
+        
         const result = await cartManager.addProductToCart(cartId, prodId, quantity);
 
         if (result)
