@@ -42,13 +42,36 @@ router.get('/products/detail/:pid', async (req, res) => {
 
         let data = {
             title: 'Product detail',
-            scripts: ['productDetail.js'],
+            // scripts: ['productDetail.js'],
             styles: ['home.css', 'productDetail.css'],
             useWS: false,
             product
         }
         
         res.render('productDetail', data)        
+    }
+    catch (err) {
+        return res.status(500).json({ message: err.message })
+    }
+})
+
+router.get('/carts/:cid', async (req, res) => {
+    try {
+        const cartManager = req.app.get('cartManager')
+        const cartId = req.params.cid
+        const cart = await cartManager.getCartById(cartId)               
+
+        console.log(JSON.stringify(cart.products, null, '\t'))
+
+        let data = {
+            title: 'Cart detail',
+            // scripts: ['cartDetail.js'],
+            styles: ['home.css', 'cartDetail.css'],
+            useWS: false,
+            cart
+        }
+        
+        res.render('cartDetail', data)        
     }
     catch (err) {
         return res.status(500).json({ message: err.message })
