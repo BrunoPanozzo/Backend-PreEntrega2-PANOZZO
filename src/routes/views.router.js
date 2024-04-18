@@ -113,12 +113,12 @@ router.get('/realtimeproducts', async (req, res) => {
         useWS: false,
         allProducts
     }
-    
+
     res.render('realtimeproducts', data)
 })
 
 router.get('/products/create', async (req, res) => {
-    console.log('creando producto')
+    
     const data = {
         title: 'Create Product',
         scripts: ['createProduct.js'],

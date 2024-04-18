@@ -239,14 +239,15 @@ router.delete('/:pid', validateProduct, async (req, res) => {
 
         const product = await productManager.getProductById(prodId)
         if (product) {
-            await productManager.deleteProduct(prodId)
+            await productManager.deleteProduct(prodId)            
 
             // HTTP 200 OK => producto eliminado exitosamente
-            res.status(200).json(`El producto con código '${prodId}' se eliminó exitosamente.`)
+            return res.status(200).json(`El producto con código '${prodId}' se eliminó exitosamente.`)
         }
-        else
+        else {        
             // HTTP 404 => el ID es válido, pero no se encontró ese producto
-            res.status(404).json(`El producto con código '${prodId}' no existe.`)
+            return res.status(404).json(`El producto con código '${prodId}' no existe.`)
+        }
     }
     catch (err) {
         return res.status(500).json({ message: err.message })

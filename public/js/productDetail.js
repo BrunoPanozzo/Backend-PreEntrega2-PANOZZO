@@ -7,7 +7,6 @@ document.addEventListener("DOMContentLoaded", function () {
             icon: "success",
             title: "Compra confirmada",
             text: `Su producto se agregó al carrito.`,
-            increaseTimer: (100000)
         })
     });
 })

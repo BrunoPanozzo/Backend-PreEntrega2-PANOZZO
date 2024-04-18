@@ -6,17 +6,18 @@ document.addEventListener("DOMContentLoaded", function () {
     const allDeleteButtons = Array.from(buttons);
     allDeleteButtons.forEach(btn => {
         btn.addEventListener("click", function () {
-            // Handle the button click event here
             //alert(`${btn.id} clicked`);  
             // socket.emit('deleteProduct', `${btn.id}`)
             fetch(`http://localhost:8080/api/products/${btn.id}`, {
                 method: 'DELETE'
             })
-                .then(response => response.json())
-                .then(data => {
-                    console.log(`Se envío la solicitud al servidor para eliminar el producto con id ${btn.id}.`)
+                .then(() => {
+                    console.log('borre ..');
+                    fetch(`http://localhost:8080/realtimeproducts`, {
+                        method: 'GET'
+                    })
                 })
-                .catch(error => {
+                .catch(error => {                    
                     console.error('Error fetching data:', error);
                 });
         });
