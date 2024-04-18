@@ -49,7 +49,7 @@ class CartManager {
     }
 
     getCartById = async (cartId) => {
-        const cart = await cartModel.findOne({ _id: cartId })//.populate('products._id')
+        const cart = await cartModel.findOne({ _id: cartId }).populate('products._id')
         if (cart) {
             return cart
         }
@@ -73,8 +73,6 @@ class CartManager {
         const cart = await this.getCartById(cartId)
         //obtengo los productos del carrito        
         const productsFromCart = cart.products
-        console.log(prodId)
-        console.log(productsFromCart)
         const productIndex = productsFromCart.findIndex(item => item._id.toString() === prodId)
         if (productIndex != -1) {
             //existe el producto en el carrito, actualizo sólo su cantidad
@@ -118,7 +116,7 @@ class CartManager {
         const cart = await this.getCartById(cartId)
         //obtengo los productos del carrito        
         const productsFromCart = cart.products
-        const productIndex = productsFromCart.findIndex(item => item._id === prodId)
+        const productIndex = productsFromCart.findIndex(item => item._id.toString() === prodId)
         if (productIndex != -1) {
             //existe el producto en el carrito, puedo eliminarlo
             productsFromCart.splice(productIndex, 1)
