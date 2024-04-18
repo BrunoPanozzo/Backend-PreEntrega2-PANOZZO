@@ -30,23 +30,25 @@ router.get('/products', async (req, res) => {
 router.get('/products/detail/:pid', async (req, res) => {
     try {
         const productManager = req.app.get('productManager')
-        // const cartManager = req.app.get('cartManager')
+        const cartManager = req.app.get('cartManager')
 
         const prodId = req.params.pid
         const product = await productManager.getProductById(prodId)
         
         // //agrego una unidad del producto al primer carrito que siempre existe
-        // const carts = await cartManager.getCarts()   
+        const carts = await cartManager.getCarts()   
         // // console.log(JSON.stringify(carts, null, '\t'))     
         // await cartManager.addProductToCart(carts[0]._id, prodId, 1);
 
+        let cid = carts[0]._id
         let data = {
             title: 'Product detail',
             scripts: ['productDetail.js'],
             styles: ['home.css', 'productDetail.css'],
             useWS: false,
             useSweetAlert: true,
-            product
+            product,
+            cid
         }
         
         res.render('productDetail', data)        
@@ -66,10 +68,10 @@ router.get('/products/addcart/:pid', async (req, res) => {
         
         //agrego una unidad del producto al primer carrito que siempre existe
         const carts = await cartManager.getCarts()   
-        // console.log(JSON.stringify(carts, null, '\t'))     
-        await cartManager.addProductToCart(carts[0]._id, prodId, 1);   
-        
-        res.redirect(`/products/detail/${prodId}`)
+        console.log(carts[0]._id)     
+        await cartManager.addProductToCart(carts[0]._id.toString(), prodId, 1);   
+
+        // res.redirect(`/products/detail/${prodId}`)
         // HTTP 200 OK => producto modificado exitosamente
         // res.status(200).json({message: 'Producto agregado con éxito'})
     }
@@ -121,7 +123,7 @@ router.get('/products/create', async (req, res) => {
     
     const data = {
         title: 'Create Product',
-        scripts: ['createProduct.js'],
+        // scripts: ['createProduct.js'],
         styles: ['home.css'],
         useWS: false
     }

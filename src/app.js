@@ -15,7 +15,6 @@ const fsProductManager = require('./dao/fsManagers/ProductManager')
 const fsCartManager = require('./dao/fsManagers/CartManager')
 const dbProductManager = require('./dao/dbManagers/ProductManager')
 const dbCartManager = require('./dao/dbManagers/CartManager')
-
 const dbMessageManager = require('./dao/dbManagers/MessageManager')
 
 //instanciar mi app
@@ -26,7 +25,7 @@ app.use(express.static(`${__dirname}/../public`))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-// // configurar handlebars como nuestro template engine por defecto
+// configurar handlebars como nuestro template engine por defecto
 // app.engine('handlebars', handlebars.engine())
 // app.set('views', `${__dirname}/views`)
 // app.set('view engine', 'handlebars')
@@ -41,7 +40,7 @@ app.engine("handlebars", handlebars.engine)
 app.set("views" , `${__dirname}/views`)
 app.set("view engine", "handlebars")
 
-//Configurar las views para que encuentre archivos CSS desde los routers
+//Configurar las views para tener alcance a los archivos CSS, JS e IMAGES desde los routers
 app.use('/products/detail', express.static(`${__dirname}/../public`));
 app.use('/products/create', express.static(`${__dirname}/../public`));
 app.use('/carts', express.static(`${__dirname}/../public`));

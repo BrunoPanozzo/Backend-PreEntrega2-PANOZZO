@@ -10,7 +10,7 @@ const emailValido = email => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
-// bloquear pantalla del usuario y pedirle un correo de usuario
+// bloquear pantalla del usuario y pedirle un email
 const { value: email } = Swal.fire({
     title: 'Identificate',
     input: 'email',
@@ -19,7 +19,7 @@ const { value: email } = Swal.fire({
     inputValidator: (value) => {
         return (!value || !emailValido(value)) && 'Debes escribir un email para continuar!'
     },
-    allowOutsideClick: false // impide que el usuario salga de la alerta al dar "click" fuera de la alerta    
+    allowOutsideClick: false // impide que el usuario salga de la alerta al dar "click" fuera de la misma    
 }).then(result => {
     user = result.value
     console.log(`Usuario identificado como: ${user}`)
