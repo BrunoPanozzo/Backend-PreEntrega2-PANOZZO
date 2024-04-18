@@ -11,17 +11,20 @@
                     <p class="card-text item-precio">$ {{this.price}}</p>
                     <p class="card-text item-stock">Stock Disponible: {{this.stock}}</p>
                     <p class="card-text item-descripcion">{{this.description}}</p>
+                    <a href="/products/detail/{{this._id}}"
+                        class="btn btn-secondary text-decoration text-center btn-ver-detalle">Comprar</a>
                 </div>
             </div>
             {{/each}}
-            <div class="card-body"></div>
+        </div>
+        <div>
+            <p class="card-text item-precio">Página {{filteredProducts.page}}</p>
             {{#if filteredProducts.hasPrevPage}}
-            <a href="/products?page={{filteredProducts.prevPage}}" class="card-text item-descripcion">Página
+            <a href="/products?page={{filteredProducts.prevPage}}" class="card-text item-precio">Página
                 anterior</a>
             {{/if}}
-            <p class="card-text item-descripcion">{{filteredProducts.page}}</p>
             {{#if filteredProducts.hasNextPage}}
-            <a href="/products?page={{filteredProducts.nextPage}}" class="card-text item-descripcion">Página
+            <a href="/products?page={{filteredProducts.nextPage}}" class="card-text item-precio">Página
                 siguiente</a>
             {{/if}}
         </div>

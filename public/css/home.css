@@ -48,3 +48,7 @@
     align-content: flex-start;
 }
 
+.btn-ver-detalle:hover {
+    background-color: rgb(53, 53, 218);
+}
+

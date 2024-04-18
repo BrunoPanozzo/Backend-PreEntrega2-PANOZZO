@@ -12,7 +12,7 @@ async function validateNewCart(req, res, next) {
 
     //valido que cada producto que quiero agregar a un carrito exista y que su quantity sea un valor positivo
     products.forEach(async producto => {
-        const prod = await productManager.getProductById(producto.id)
+        const prod = await productManager.getProductById(producto._id)
         if (!prod) {
             res.status(400).json({ error: `No se puede crear el carrito porque no existe el producto con ID '${producto.id}'.` })
             return

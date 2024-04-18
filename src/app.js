@@ -37,10 +37,15 @@ const handlebars = expressHandlebars.create({
         allowProtoPropertiesByDefault: true
     }
 })
-
 app.engine("handlebars", handlebars.engine)
 app.set("views" , `${__dirname}/views`)
 app.set("view engine", "handlebars")
+
+// //Configurar las views para que encuentre archivos CSS desde los routers
+app.use('/products/detail', express.static(`${__dirname}/../public`));
+app.use('/products/create', express.static(`${__dirname}/../public`));
+
+
 
 //configurar los routers
 app.use('/api/products', productRouter)
