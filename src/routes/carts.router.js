@@ -14,12 +14,12 @@ async function validateNewCart(req, res, next) {
     products.forEach(async producto => {
         const prod = await productManager.getProductById(producto._id)
         if (!prod) {
-            res.status(400).json({ error: `No se puede crear el carrito porque no existe el producto con ID '${producto.id}'.` })
+            res.status(400).json({ error: `No se puede crear el carrito porque no existe el producto con ID '${producto._id}'.` })
             return
         }
         //valido además que su campo quantity sea un valor positivo
         if (!productManager.esPositivo(producto.quantity)) {
-            res.status(400).json({ error: `El valor de quantity del producto con ID '${producto.id}' es inválido.` })
+            res.status(400).json({ error: `El valor de quantity del producto con ID '${producto._id}' es inválido.` })
             return
         }
     })

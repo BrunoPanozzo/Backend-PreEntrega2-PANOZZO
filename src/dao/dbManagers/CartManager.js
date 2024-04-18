@@ -77,8 +77,6 @@ class CartManager {
         if (productIndex != -1) {
             //existe el producto en el carrito, actualizo sólo su cantidad
             productsFromCart[productIndex].quantity += quantity
-            await cartModel.updateOne({ _id: cartId }, cart)
-            return true
         }
         else { //no existe, debo crearlo
             let newProduct = {
@@ -86,17 +84,17 @@ class CartManager {
                 quantity: quantity
             }
             productsFromCart.push(newProduct);
-            await cartModel.updateOne({ _id: cartId }, cart)
-            return true
         }
+        await cartModel.updateOne({ _id: cartId }, cart)
+        return true
     }
 
     updateCartProducts = async (cartId, products) => {
         //obtengo el carrito
-        
+
         const cart = await this.getCartById(cartId)
         cart.products = products
-        
+
         await cartModel.updateOne({ _id: cartId }, cart)
     }
 

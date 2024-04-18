@@ -30,6 +30,35 @@ router.get('/products', async (req, res) => {
 router.get('/products/detail/:pid', async (req, res) => {
     try {
         const productManager = req.app.get('productManager')
+        // const cartManager = req.app.get('cartManager')
+
+        const prodId = req.params.pid
+        const product = await productManager.getProductById(prodId)
+        
+        // //agrego una unidad del producto al primer carrito que siempre existe
+        // const carts = await cartManager.getCarts()   
+        // // console.log(JSON.stringify(carts, null, '\t'))     
+        // await cartManager.addProductToCart(carts[0]._id, prodId, 1);
+
+        let data = {
+            title: 'Product detail',
+            scripts: ['productDetail.js'],
+            styles: ['home.css', 'productDetail.css'],
+            useWS: false,
+            useSweetAlert: true,
+            product
+        }
+        
+        res.render('productDetail', data)        
+    }
+    catch (err) {
+        return res.status(500).json({ message: err.message })
+    }
+})
+
+router.get('/products/addcart/:pid', async (req, res) => {
+    try {
+        const productManager = req.app.get('productManager')
         const cartManager = req.app.get('cartManager')
 
         const prodId = req.params.pid
@@ -38,17 +67,7 @@ router.get('/products/detail/:pid', async (req, res) => {
         //agrego una unidad del producto al primer carrito que siempre existe
         const carts = await cartManager.getCarts()   
         // console.log(JSON.stringify(carts, null, '\t'))     
-        await cartManager.addProductToCart(carts[0]._id, prodId, 1);
-
-        let data = {
-            title: 'Product detail',
-            // scripts: ['productDetail.js'],
-            styles: ['home.css', 'productDetail.css'],
-            useWS: false,
-            product
-        }
-        
-        res.render('productDetail', data)        
+        await cartManager.addProductToCart(carts[0]._id, prodId, 1);        
     }
     catch (err) {
         return res.status(500).json({ message: err.message })

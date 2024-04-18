@@ -3,16 +3,16 @@
     <div class="text-center mb-1">
         <div class="item-list" id="productsList">
             {{#each filteredProducts.docs}}
-            <div class="card text-bg-light mb-3 item" id='{{this.id}}'>
+            <div class="card text-bg-light mb-3 item" id='{{id}}'>
                 <div class="card-header">{{category}}</div>
                 <div class="card-body">
                     <h5 class="card-title">{{title}}</h5>
                     <img src="/images/productos/{{thumbnail}}" alt={{title}} width="270" />
-                    <p class="card-text item-precio">$ {{this.price}}</p>
-                    <p class="card-text item-stock">Stock Disponible: {{this.stock}}</p>
-                    <p class="card-text item-descripcion">{{this.description}}</p>
-                    <a href="/products/detail/{{this._id}}"
-                        class="btn btn-secondary text-decoration text-center btn-ver-detalle">Comprar</a>
+                    <p class="card-text item-precio">$ {{price}}</p>
+                    {{!-- <p class="card-text item-stock">Stock Disponible: {{this.stock}}</p> --}}
+                    {{!-- <p class="card-text item-descripcion">{{this.description}}</p> --}}
+                    <a href="/products/detail/{{_id}}"
+                        class="btn btn-secondary text-decoration text-center btn-ver-detalle">Ver Detalle</a>
                 </div>
             </div>
             {{/each}}

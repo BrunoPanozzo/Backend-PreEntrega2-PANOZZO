@@ -128,7 +128,6 @@ class ProductManager {
 
             //busqueda general, sin filtros, solo esta avanzando o retrocediendo por las paginas
             const { page, ...restOfFilters } = filters
-
             if (page && JSON.stringify(restOfFilters) === '{}') {
                 filteredProducts = await productModel.paginate({}, { page: page, lean: true })
                 // return filteredProducts.docs.map(d => d.toObject({ virtuals: true }))

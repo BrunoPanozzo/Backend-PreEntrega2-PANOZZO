@@ -8,7 +8,9 @@
             <div>
                 <p class="item-detail-precio">$ {{product.price}}</p>
                 <p class="item-detail-stock">Stock Disponible: {{product.stock}}</p>
-                <p class="item-detail-resumen-compra">Ud. ha agregado 1 artículo a su carrito.</p>
+                {{!-- <p class="item-detail-resumen-compra">Ud. ha agregado 1 artículo a su carrito.</p> --}}   
+                <a href="/products/addcart/{{product._id}}" id="btn-confirmar"
+                        class="btn btn-secondary text-decoration text-center btn-ver-detalle">Agregar al carrito</a>             
             </div>
         </div>
         <div>
