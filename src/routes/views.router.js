@@ -118,6 +118,7 @@ router.get('/realtimeproducts', async (req, res) => {
 })
 
 router.get('/products/create', async (req, res) => {
+    console.log('creando producto')
     const data = {
         title: 'Create Product',
         scripts: ['createProduct.js'],

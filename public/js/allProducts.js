@@ -1,51 +1,56 @@
 //lado cliente, browser
+
 document.addEventListener("DOMContentLoaded", function () {
-    document.querySelector(".btn-agregarItem").addEventListener("click", function () {
-        // Handle the button click event here
-        alert("Button clicked!");
-    });
-
-})
-
-document.addEventListener("DOMContentLoaded", function () {    
-    const allDeleteButtons = document.querySelectorAll(".btn-eliminarItem")
+    const buttons = document.getElementsByClassName("btn-eliminarItem")
+    // Convert the collection to an array for easier manipulation
+    const allDeleteButtons = Array.from(buttons);
     allDeleteButtons.forEach(btn => {
         btn.addEventListener("click", function () {
             // Handle the button click event here
             //alert(`${btn.id} clicked`);  
-            socket.emit('deleteProduct', `${btn.id}`)
+            // socket.emit('deleteProduct', `${btn.id}`)
+            fetch(`http://localhost:8080/api/products/${btn.id}`, {
+                method: 'DELETE'
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(`Se envío la solicitud al servidor para eliminar el producto con id ${btn.id}.`)
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
         });
     });
 })
 
-const socket = io()
+// const socket = io()
 
-socket.on('newProduct', (product) => {
-    //agregar el nuevo producto al html
-    
-    const container = document.getElementById('productsList')
-    container.innerHTML += `
-    <div class="card text-bg-light mb-3 item">
-            <div class="card-header">${product.category}</div>
-            <div class="card-body">
-                <h5 class="card-title">${product.title}</h5>
-                <img src="/images/productos/${product.thumbnail}" alt=${product.title} width="270" />
-                <p class="card-text item-precio">$ ${product.price}</p>
-                <p class="card-text item-stock">Stock Disponible: ${product.stock}</p>
-                <p class="card-text item-descripcion">${product.description}</p>
-            </div>
-            <div class"col align-self-center">
-                <button type="button" class="btn btn-danger text-decoration
-                    text-center btn-eliminarItem" id=${product.id}>Eliminar producto
-                </button>
-            </div>
-        </div>
-     `
-})
+// socket.on('newProduct', (product) => {
+//     //agregar el nuevo producto al html
 
-socket.on('deleteProduct', (idProd) => {
-    //eliminar el producto al html
-    const container = document.getElementById(idProd)
-    if (container) 
-        container.remove()
-})
+//     const container = document.getElementById('productsList')
+//     container.innerHTML += `
+//     <div class="card text-bg-light mb-3 item">
+//             <div class="card-header">${product.category}</div>
+//             <div class="card-body">
+//                 <h5 class="card-title">${product.title}</h5>
+//                 <img src="/images/productos/${product.thumbnail}" alt=${product.title} width="270" />
+//                 <p class="card-text item-precio">$ ${product.price}</p>
+//                 <p class="card-text item-stock">Stock Disponible: ${product.stock}</p>
+//                 <p class="card-text item-descripcion">${product.description}</p>
+//             </div>
+//             <div class"col align-self-center">
+//                 <button type="button" class="btn btn-danger text-decoration
+//                     text-center btn-eliminarItem" id=${product.id}>Eliminar producto
+//                 </button>
+//             </div>
+//         </div>
+//      `
+// })
+
+// socket.on('deleteProduct', (idProd) => {
+//     //eliminar el producto al html
+//     const container = document.getElementById(idProd)
+//     if (container)
+//         container.remove()
+// })
