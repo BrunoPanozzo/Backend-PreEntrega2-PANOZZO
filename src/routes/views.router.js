@@ -35,10 +35,7 @@ router.get('/products/detail/:pid', async (req, res) => {
         const prodId = req.params.pid
         const product = await productManager.getProductById(prodId)
         
-        // //agrego una unidad del producto al primer carrito que siempre existe
         const carts = await cartManager.getCarts()   
-        // // console.log(JSON.stringify(carts, null, '\t'))     
-        // await cartManager.addProductToCart(carts[0]._id, prodId, 1);
 
         let cid = carts[0]._id
         let data = {
@@ -68,7 +65,7 @@ router.get('/products/addcart/:pid', async (req, res) => {
         
         //agrego una unidad del producto al primer carrito que siempre existe
         const carts = await cartManager.getCarts()   
-        console.log(carts[0]._id)     
+        console.log(prodId)
         await cartManager.addProductToCart(carts[0]._id.toString(), prodId, 1);   
 
         // res.redirect(`/products/detail/${prodId}`)

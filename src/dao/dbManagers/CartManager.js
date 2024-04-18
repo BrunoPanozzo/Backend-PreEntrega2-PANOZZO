@@ -73,7 +73,7 @@ class CartManager {
         const cart = await this.getCartById(cartId)
         //obtengo los productos del carrito        
         const productsFromCart = cart.products
-        const productIndex = productsFromCart.findIndex(item => item._id === prodId)
+        const productIndex = productsFromCart.findIndex(item => item._id._id.toString() === prodId)
         if (productIndex != -1) {
             //existe el producto en el carrito, actualizo sólo su cantidad
             productsFromCart[productIndex].quantity += quantity
@@ -114,7 +114,7 @@ class CartManager {
         const cart = await this.getCartById(cartId)
         //obtengo los productos del carrito        
         const productsFromCart = cart.products
-        const productIndex = productsFromCart.findIndex(item => item._id === prodId)
+        const productIndex = productsFromCart.findIndex(item => item._id._id.toString() === prodId)
         if (productIndex != -1) {
             //existe el producto en el carrito, puedo eliminarlo
             productsFromCart.splice(productIndex, 1)
