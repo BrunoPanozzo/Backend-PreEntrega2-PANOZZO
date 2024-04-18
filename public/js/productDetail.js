@@ -7,7 +7,8 @@ document.addEventListener("DOMContentLoaded", function () {
         Swal.fire({
             icon: "success",
             title: "Compra confirmada",
-            text: `Su producto se agregó al carrito.`
+            text: `Su producto se agregó al carrito.`,
+            increaseTimer: (100000)
         })
     });
 })

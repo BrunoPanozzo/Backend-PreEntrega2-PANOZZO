@@ -127,7 +127,7 @@ class ProductManager {
             }
 
             //busqueda general, sin filtros, solo esta avanzando o retrocediendo por las paginas
-            const { page, ...restOfFilters } = filters
+            let { page, ...restOfFilters } = filters
             if (page && JSON.stringify(restOfFilters) === '{}') {
                 filteredProducts = await productModel.paginate({}, { page: page, lean: true })
                 // return filteredProducts.docs.map(d => d.toObject({ virtuals: true }))
@@ -135,13 +135,19 @@ class ProductManager {
             } 
 
             if (!page) page = 1
-            const { limit, category, availability, sort } = { limit: 10, page: page, category: 'Computacion', availability: 1, sort: 'asc', ...filters }
+            let { limit, category, availability, sort } = { limit: 10, page: page, category: 'Computacion', availability: 1, sort: 'asc', ...filters }
            
+            console.log(limit)
+            console.log(page)
+            console.log(category)
+            console.log(availability)
+            console.log(sort)
+
             if (availability == 1) {
-                filteredProducts = await productModel.paginate({ category: category, stock: { $gt: 0 }}, {}, { limit: limit, page: page, sort: { price: sort }, lean: true })
+                filteredProducts = await productModel.paginate({ category: category, stock: { $gt: 0 }}, { limit: limit, page: page, sort: { price: sort }, lean: true })
             }
             else {
-                filteredProducts = await productModel.paginate({ category: category, stock: 0 }, {}, { limit: limit, page: page, sort: { price: sort }, lean: true })
+                filteredProducts = await productModel.paginate({ category: category, stock: 0 }, { limit: limit, page: page, sort: { price: sort }, lean: true })
             }
 
             return filteredProducts
