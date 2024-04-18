@@ -5,7 +5,7 @@
                     text-center btn-agregarItem">Agregar producto
     </button></div>
     <div class="item-list" id="productsList">
-        {{#each allProducts}}
+        {{#each allProducts.docs}}
         <div class="card text-bg-light mb-3 item" id='{{this.id}}'>
             <div class="card-header">{{category}}</div>
             <div class="card-body">
@@ -23,4 +23,15 @@
         </div>
         {{/each}}
     </div>
+    <div>
+            <p class="card-text item-precio">Página {{allProducts.page}}</p>
+            {{#if allProducts.hasPrevPage}}
+            <a href="/products?page={{allProducts.prevPage}}" class="card-text item-precio">Página
+                anterior</a>
+            {{/if}}
+            {{#if allProducts.hasNextPage}}
+            <a href="/products?page={{allProducts.nextPage}}" class="card-text item-precio">Página
+                siguiente</a>
+            {{/if}}
+        </div>
 </div>

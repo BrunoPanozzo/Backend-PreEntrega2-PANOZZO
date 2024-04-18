@@ -14,7 +14,7 @@ class ProductManager {
             throw new Error('Error al conectarse a la BD de mongodb!')
         }
         else {
-            const products = await this.getProducts({})
+            const products = await this.getProducts({})            
             ProductManager.#lastID_Product = this.#getHigherID(products.docs)
         }
     }
@@ -119,10 +119,10 @@ class ProductManager {
         try {
             let filteredProducts = await productModel.find()
 
-            //busqueda general, sin filtros
+            //busqueda general, sin filtros, devuelvo todos los productos en una sola página
             if (JSON.stringify(filters) === '{}') {
-                filteredProducts = await productModel.paginate({}, { lean: true })
-                // return filteredProducts.docs.map(d => d.toObject({ virtuals: true }))
+                filteredProducts = await productModel.paginate({}, { limit: filteredProducts.length})
+                // return filteredProducts.docs.map(d => d.toObject({ virtuals: true }))                
                 return filteredProducts
             }
 
@@ -181,6 +181,7 @@ class ProductManager {
     }
 
     addProduct = async (title, description, price, thumbnail, code, stock, status, category) => {
+        console.log(this.#getNuevoID())
         let product = await productModel.create({
             id: this.#getNuevoID(),
             title,

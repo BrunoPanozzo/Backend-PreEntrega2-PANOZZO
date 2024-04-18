@@ -3,7 +3,6 @@ document.addEventListener("DOMContentLoaded", function () {
     btn.addEventListener("click", function () {
         // Handle the button click event here
 
-
         Swal.fire({
             icon: "success",
             title: "Compra confirmada",
